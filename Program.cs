@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
+using System.IO;
 namespace Lingin
 {
     public static class Program
@@ -92,25 +93,100 @@ namespace Lingin
                 }
             }
 
-            Console.WriteLine("Do you like it (true or false)");
-
-            bool love = bool.Parse(Console.ReadLine());
-
-            if(love == true)
+            //do you like your alphabet
             {
-                Console.WriteLine("Gud");
+                Console.WriteLine("Do you like it (true or false)");
+
+                bool love = bool.Parse(Console.ReadLine());
+
+                if(love == true)
+                {
+                    Console.WriteLine("Gud");
+                }
+                else if(love == false)
+                {
+                    Console.WriteLine("Too bad sucka!!!");
+                    Environment.Exit(0);
+                }
             }
-            else if(love == false)
+
+            //welcomes to MORPHOLOGY section
+            {    
+                Console.WriteLine("                            .__           .__                      ");
+                Console.WriteLine("  _____   _________________ |  |__   ____ |  |   ____   ____ ___.__.");
+                Console.WriteLine(" /     \\ /  _ \\_  __ \\____ \\|  |  \\ /  _ \\|  |  /  _ \\ / ___<   |  | ");
+                Console.WriteLine("|  Y Y  (  <_> )  | \\/  |_> >   Y  (  <_> )  |_(  <_> ) /_/  >___  | ");
+                Console.WriteLine("|__|_|  /\\____/|__|  |   __/|___|  /\\____/|____/\\____/\\___  // ____|");
+                Console.WriteLine("      \\/             |__|        \\/                  /_____/ \\/     ");
+            
+                Console.WriteLine();
+
+                Console.WriteLine("Welcome to MORPHOLOGY, the only segment which actually killed me inside to code! Here we will lay out ALL the rules for your language, you can always skip a step by typing \"skip card\";");
+            }
+            
+            //creates "MorphSave.txt"
+            try
             {
-                Console.WriteLine("Too bad sucka!!!");
-                Environment.Exit(0);
-            }   
-            Console.WriteLine("                            .__           .__                      ");
-            Console.WriteLine("  _____   _________________ |  |__   ____ |  |   ____   ____ ___.__.");
-            Console.WriteLine(" /     \\ /  _ \\_  __ \\____ \\|  |  \\ /  _ \\|  |  /  _ \\ / ___<   |  | ");
-            Console.WriteLine("|  Y Y  (  <_> )  | \\/  |_> >   Y  (  <_> )  |_(  <_> ) /_/  >___  | ");
-            Console.WriteLine("|__|_|  /\\____/|__|  |   __/|___|  /\\____/|____/\\____/\\___  // ____|");
-            Console.WriteLine("      \\/             |__|        \\/                  /_____/ \\/     ");
+                File.Copy("MorphBase.txt", "MorphSave.txt");
+            }
+             catch
+            {
+                Console.WriteLine("Running this program will overwite your previous language, do you wish to continue. If you wish to not overwite your file, type false and move \"MorphSave.txt\" out of \"C:\\Users\\Sebbie\\source\\repos\\Langin'\\bin\\release\", then reboot the program");
+                
+                if(bool.Parse(Console.ReadLine()) == false)
+                {
+                    Environment.Exit(0);
+                }
+                else
+                {
+                    Console.WriteLine("Ok");
+                    Console.WriteLine();
+                }
+            }
+            
+            //creates interactable morphology section
+            string[] morfSv = File.ReadAllLines("MorphBase.txt");
+
+            //writes alphabet in save file
+            morfSv[0] = phonemeStringC + phonemeStringV;
+
+            //handles encoding morphology on file
+            while (true) 
+            {
+                for (int i = 1; i < 1000; i++)
+                {
+                    try
+                    {
+                        if(i % 2 == 1)
+                        {
+                            try
+                            { 
+                                Console.WriteLine(morfSv[i]);
+                             
+                                #pragma warning disable CS8601 // Possible null reference assignment.
+
+                                morfSv[i+1] = Console.ReadLine();
+
+                                #pragma warning restore CS8601 // Possible null reference assignment.
+    
+                                File.WriteAllLines("MorphSave.txt", morfSv);
+                                }
+                            catch
+                            {
+                                Console.WriteLine("DONE!");
+                                break;
+                            }
+                        }
+                    }
+                    catch
+                    {
+                        break;
+                    }
+                }
+                
+                break;
+            }
+            
         }
         public static char[] strCharArray(string parse)
         {
